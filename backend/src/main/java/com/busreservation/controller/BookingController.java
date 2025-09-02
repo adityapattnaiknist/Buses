@@ -1,11 +1,16 @@
 package com.busreservation.controller;
 
+import com.busreservation.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.busreservation.dto.HoldRequest;
 import com.busreservation.model.Booking;
 import com.busreservation.service.BookingService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -40,5 +45,12 @@ public class BookingController {
     public ResponseEntity<Booking> getBooking(@PathVariable Long id) {
         Booking b = bookingService.getBooking(id);
         return ResponseEntity.ok(b);
+    }
+
+    @GetMapping("/my-bookings")
+    public ResponseEntity<List<Booking>> getMyBookings() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(bookingService.getBookingsByUser(user));
     }
 }

@@ -1,4 +1,4 @@
-package com.busreservation.security;
+package com.busreservation.service;
 
 import com.busreservation.model.User;
 import com.busreservation.repository.UserRepository;

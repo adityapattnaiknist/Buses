@@ -9,15 +9,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const decoded = jwtDecode(token);
-      setUser({ username: decoded.sub, role: decoded.role });
+      try {
+        const decoded = jwtDecode(token);
+        setUser({ id: decoded.userId, username: decoded.sub, role: decoded.role });
+      } catch (error) {
+        console.error("Invalid token");
+        localStorage.removeItem("token");
+      }
     }
   }, []);
 
   const login = (token) => {
     localStorage.setItem("token", token);
     const decoded = jwtDecode(token);
-    setUser({ username: decoded.sub, role: decoded.role });
+    setUser({ id: decoded.userId, username: decoded.sub, role: decoded.role });
   };
 
   const logout = () => {

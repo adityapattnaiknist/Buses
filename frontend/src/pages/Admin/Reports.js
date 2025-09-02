@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../api';
 
 const Reports = () => {
     const [bookingReport, setBookingReport] = useState(null);
@@ -14,7 +14,7 @@ const Reports = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/api/reports/bookings');
+            const response = await api.get('/reports/bookings');
             setBookingReport(response.data);
         } catch (error) {
             setError('Error fetching booking report');
@@ -27,7 +27,7 @@ const Reports = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/api/reports/tickets');
+            const response = await api.get('/reports/tickets');
             setTicketReport(response.data);
         } catch (error) {
             setError('Error fetching ticket report');
@@ -40,7 +40,7 @@ const Reports = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/api/reports/sales');
+            const response = await api.get('/reports/sales');
             setSalesReport(response.data);
         } catch (error) {
             setError('Error fetching sales report');
@@ -53,7 +53,7 @@ const Reports = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/api/reports/occupancy');
+            const response = await api.get('/reports/occupancy');
             setOccupancyReport(response.data);
         } catch (error) {
             setError('Error fetching occupancy report');
@@ -66,7 +66,7 @@ const Reports = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/api/reports/route-performance');
+            const response = await api.get('/reports/route-performance');
             setRoutePerformanceReport(response.data);
         } catch (error) {
             setError('Error fetching route performance report');
