@@ -39,6 +39,9 @@ public class Booking {
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<Seat> seats;
 
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
+    private Ticket ticket;
+
     // --- Getters & Setters ---
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -75,4 +78,7 @@ public class Booking {
 
     public List<Seat> getSeats() { return seats; }
     public void setSeats(List<Seat> seats) { this.seats = seats; }
+
+    public Ticket getTicket() { return ticket; }
+    public void setTicket(Ticket ticket) { this.ticket = ticket; }
 }

@@ -58,9 +58,9 @@ const MyBookings = () => {
                             <p>Date: {new Date(booking.trip.departureTime).toLocaleDateString()}</p>
                             <p>Status: <span className={`badge bg-${booking.status === 'CONFIRMED' ? 'success' : 'warning'}`}>{booking.status}</span></p>
                             <p>Amount: ${booking.amount}</p>
-                            {booking.status === 'CONFIRMED' && (
+                            {booking.status === 'CONFIRMED' && booking.ticket && (
                                 <>
-                                    <Link to={`/ticket/${booking.ticket.id}`} className="btn btn-info me-2">View Ticket</Link>
+                                    <a href={`/api/v1/tickets/${booking.ticket.id}/download`} className="btn btn-info me-2" target="_blank" rel="noopener noreferrer">Download Ticket</a>
                                     <button onClick={() => handleCancelBooking(booking.id)} className="btn btn-danger">Cancel Booking</button>
                                 </>
                             )}

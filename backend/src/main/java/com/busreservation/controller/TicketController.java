@@ -1,47 +1,45 @@
 package com.busreservation.controller;
 
-import com.busreservation.model.Booking;
-import com.busreservation.service.BookingService;
-import com.busreservation.service.implementations.TicketPdfService;
+import com.busreservation.model.Ticket;
+import com.busreservation.repository.TicketRepository;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @RestController
-@RequestMapping("/api/tickets")
+@RequestMapping("/api/v1/tickets")
 public class TicketController {
 
-    private final BookingService bookingService;
-    private final TicketPdfService ticketPdfService;
+    private final TicketRepository ticketRepository;
 
-    public TicketController(BookingService bookingService, TicketPdfService ticketPdfService) {
-        this.bookingService = bookingService;
-        this.ticketPdfService = ticketPdfService;
+    public TicketController(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
     }
 
-    /**
-     * Download ticket PDF for a booking (attachment).
-     * Example: GET /api/tickets/1/download
-     */
-    @GetMapping("/{bookingId}/download")
-    public ResponseEntity<byte[]> downloadTicket(@PathVariable Long bookingId) {
-        try {
-            Booking booking = bookingService.getBooking(bookingId);
-            byte[] pdf = ticketPdfService.generateTicketPdfBytes(booking);
+    @GetMapping("/{ticketId}/download")
+    public ResponseEntity<Resource> downloadTicket(@PathVariable Long ticketId) throws IOException {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "ticket-" + bookingId + ".pdf");
-            headers.setContentLength(pdf.length);
+        Path path = Paths.get(ticket.getFilePath());
+        Resource resource = new InputStreamResource(Files.newInputStream(path));
 
-            return ResponseEntity.ok().headers(headers).body(pdf);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            String msg = "Unable to generate ticket: " + ex.getMessage();
-            return ResponseEntity.internalServerError()
-                    .header("Content-Type", "text/plain")
-                    .body(msg.getBytes());
-        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + path.getFileName().toString());
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(Files.size(path))
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
 }

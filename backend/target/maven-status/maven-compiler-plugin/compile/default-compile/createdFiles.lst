@@ -50,6 +50,7 @@ com/busreservation/service/PaymentService.class
 com/busreservation/repository/UserRepository.class
 com/busreservation/model/enums/NotificationType.class
 com/busreservation/dto/RegisterRequest.class
+com/busreservation/service/CustomUserDetailsService.class
 com/busreservation/dto/AuthRequest.class
 com/busreservation/exception/PaymentFailedException.class
 com/busreservation/util/EntityDtoMapper.class
@@ -84,7 +85,6 @@ com/busreservation/service/AuthService.class
 com/busreservation/config/AppConfig.class
 com/busreservation/service/CancellationService.class
 com/busreservation/model/Trip$TripBuilder.class
-com/busreservation/security/CustomUserDetailsService.class
 com/busreservation/service/JwtService.class
 com/busreservation/controller/NotificationController.class
 com/busreservation/model/UserRole.class
