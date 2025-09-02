@@ -21,10 +21,10 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    @Value("${app.jwtSecret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationMs:3600000}")
+    @Value("${jwt.expiration-ms:3600000}")
     private long jwtExpirationMs;
 
     private SecretKey key;
