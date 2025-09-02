@@ -11,6 +11,7 @@ import com.busreservation.service.BookingService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -85,5 +86,10 @@ public class BookingServiceImpl implements BookingService {
     public Booking getBooking(Long bookingId) {
         return bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found: " + bookingId));
+    }
+
+    @Override
+    public List<Booking> getBookingsByUser(User user) {
+        return bookingRepository.findByUser(user);
     }
 }

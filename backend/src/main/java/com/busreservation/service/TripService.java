@@ -5,6 +5,9 @@ import com.busreservation.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -19,6 +22,12 @@ public class TripService {
 
     public List<Trip> getAllTrips() {
         return tripRepository.findAll();
+    }
+
+    public List<Trip> searchTrips(String source, String destination, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+        return tripRepository.searchTrips(source, destination, startOfDay, endOfDay);
     }
 
     public Trip createTrip(Trip trip) {

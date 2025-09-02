@@ -38,12 +38,13 @@ public class AuthServiceImpl implements AuthService {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        String token = jwtUtils.generateToken(userDetails);
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        String token = jwtUtils.generateToken(user);
 
         return AuthResponse.builder()
                 .token(token)
-                .username(userDetails.getUsername())
+                .username(user.getUsername())
                 .build();
     }
 
@@ -72,8 +73,7 @@ public class AuthServiceImpl implements AuthService {
 
         User saved = userRepository.save(u);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(saved.getUsername());
-        String token = jwtUtils.generateToken(userDetails);
+        String token = jwtUtils.generateToken(saved);
 
         return AuthResponse.builder()
                 .token(token)
