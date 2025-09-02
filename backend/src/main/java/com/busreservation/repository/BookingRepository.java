@@ -1,8 +1,11 @@
 package com.busreservation.repository;
 
 import com.busreservation.model.Booking;
+import com.busreservation.model.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    // add custom queries if needed
+    List<Booking> findByTrip(Trip trip);
 }
