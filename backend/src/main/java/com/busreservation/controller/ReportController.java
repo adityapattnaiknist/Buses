@@ -22,4 +22,19 @@ public class ReportController {
     public ResponseEntity<?> getTicketReport() {
         return ResponseEntity.ok(reportService.generateTicketReport());
     }
+
+    @GetMapping("/sales")
+    public ResponseEntity<?> getSalesReport() {
+        return ResponseEntity.ok(reportService.generateSalesReport());
+    }
+
+    @GetMapping("/occupancy")
+    public ResponseEntity<?> getOccupancyReport() {
+        return ResponseEntity.ok(reportService.generateOccupancyReport());
+    }
+
+    @GetMapping("/route-performance")
+    public ResponseEntity<?> getRoutePerformanceReport() {
+        return ResponseEntity.ok(reportService.generateRoutePerformanceReport());
+    }
 }
