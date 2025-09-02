@@ -81,21 +81,29 @@ const SearchTrips = () => {
             )}
 
             {trips.length > 0 && (
-                <div>
+                <div className="mt-4">
                     <h3>Available Trips</h3>
-                    <ul className="list-group">
+                    <div className="row">
                         {trips.map(trip => (
-                            <li key={trip.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5>{trip.bus.busNumber} - {trip.source} to {trip.destination}</h5>
-                                    <p>Departure: {new Date(trip.departureTime).toLocaleString()}</p>
-                                    <p>Arrival: {new Date(trip.arrivalTime).toLocaleString()}</p>
-                                    <p>Fare: ${trip.fare}</p>
+                            <div key={trip.id} className="col-md-6 mb-4">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">{trip.source} to {trip.destination}</h5>
+                                        <h6 className="card-subtitle mb-2 text-muted">Bus: {trip.bus.busNumber} ({trip.bus.type})</h6>
+                                        <p className="card-text">
+                                            <strong>Departure:</strong> {new Date(trip.departureTime).toLocaleString()}
+                                            <br/>
+                                            <strong>Arrival:</strong> {new Date(trip.arrivalTime).toLocaleString()}
+                                        </p>
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <p className="h5">${trip.fare}</p>
+                                            <Link to={`/trips/${trip.id}/seats`} className="btn btn-primary">View Seats</Link>
+                                        </div>
+                                    </div>
                                 </div>
-                                <Link to={`/trips/${trip.id}/seats`} className="btn btn-success">View Seats</Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             )}
         </div>
