@@ -51,22 +51,34 @@ const MyBookings = () => {
             {bookings.length === 0 ? (
                 <p>You have no bookings.</p>
             ) : (
-                <ul className="list-group">
+                <div className="row">
                     {bookings.map(booking => (
-                        <li key={booking.id} className="list-group-item">
-                            <h5>Trip: {booking.trip.source} to {booking.trip.destination}</h5>
-                            <p>Date: {new Date(booking.trip.departureTime).toLocaleDateString()}</p>
-                            <p>Status: <span className={`badge bg-${booking.status === 'CONFIRMED' ? 'success' : 'warning'}`}>{booking.status}</span></p>
-                            <p>Amount: ${booking.amount}</p>
-                            {booking.status === 'CONFIRMED' && booking.ticket && (
-                                <>
-                                    <a href={`/api/v1/tickets/${booking.ticket.id}/download`} className="btn btn-info me-2" target="_blank" rel="noopener noreferrer">Download Ticket</a>
-                                    <button onClick={() => handleCancelBooking(booking.id)} className="btn btn-danger">Cancel Booking</button>
-                                </>
-                            )}
-                        </li>
+                        <div key={booking.id} className="col-md-6 mb-4">
+                            <div className="card">
+                                <div className="card-header d-flex justify-content-between align-items-center">
+                                    <span>Booking ID: {booking.id}</span>
+                                    <span className={`badge bg-${booking.status === 'CONFIRMED' ? 'success' : 'danger'}`}>{booking.status}</span>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title">{booking.trip.source} to {booking.trip.destination}</h5>
+                                    <p className="card-text">
+                                        <strong>Date:</strong> {new Date(booking.trip.departureTime).toLocaleDateString()}
+                                        <br/>
+                                        <strong>Bus:</strong> {booking.trip.bus.busNumber}
+                                        <br/>
+                                        <strong>Amount:</strong> ${booking.amount}
+                                    </p>
+                                    {booking.status === 'CONFIRMED' && booking.ticket && (
+                                        <>
+                                            <a href={`/api/v1/tickets/${booking.ticket.id}/download`} className="btn btn-primary me-2" target="_blank" rel="noopener noreferrer">Download Ticket</a>
+                                            <button onClick={() => handleCancelBooking(booking.id)} className="btn btn-outline-danger">Cancel Booking</button>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );

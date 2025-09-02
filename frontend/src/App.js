@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import Home from "./pages/Home";
 import SearchTrips from "./pages/Customer/SearchTrips";
 import SeatSelection from "./pages/Customer/SeatSelection";
 import Checkout from "./pages/Customer/Checkout";
@@ -23,7 +24,8 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          {/* Auth */}
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
