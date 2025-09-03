@@ -13,4 +13,6 @@ public interface BookingService {
     Booking cancelBooking(Long bookingId, String reason);
     Booking getBooking(Long bookingId);               // needed by controller/getter usage
     List<Booking> getBookingsByUser(User user);
+    List<Booking> getAllBookings();
+    Booking updateBookingStatus(Long bookingId, String status);
 }

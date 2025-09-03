@@ -2,6 +2,7 @@ package com.busreservation.controller;
 
 import com.busreservation.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -52,5 +53,19 @@ public class BookingController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(bookingService.getBookingsByUser(user));
+    }
+
+    // Admin endpoints
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Booking>> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+
+    @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Booking> updateBookingStatus(@PathVariable Long id, @RequestParam String status) {
+        Booking b = bookingService.updateBookingStatus(id, status);
+        return ResponseEntity.ok(b);
     }
 }

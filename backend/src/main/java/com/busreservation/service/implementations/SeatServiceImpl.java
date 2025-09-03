@@ -25,4 +25,21 @@ public class SeatServiceImpl implements SeatService {
     public List<Seat> getByTrip(Long tripId) {
         return seatRepository.findByTripId(tripId);
     }
+
+    @Override
+    public Seat update(Long id, Seat seatDetails) {
+        Seat seat = seatRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Seat not found with id: " + id));
+
+        seat.setSeatNumber(seatDetails.getSeatNumber());
+        seat.setAvailable(seatDetails.isAvailable());
+        // Do not update the trip, as that should be fixed.
+
+        return seatRepository.save(seat);
+    }
+
+    @Override
+    public void delete(Long id) {
+        seatRepository.deleteById(id);
+    }
 }

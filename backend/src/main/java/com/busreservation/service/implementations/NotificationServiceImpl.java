@@ -18,4 +18,11 @@ public class NotificationServiceImpl implements NotificationService {
     public Page<Notification> getUserNotifications(Long userId, Pageable pageable) {
         return notificationRepository.findByUserId(userId, pageable);
     }
+
+    @Override
+    public Notification createNotification(Notification notification) {
+        // In a real application, you might want to set the creation date here
+        // notification.setCreatedAt(LocalDateTime.now());
+        return notificationRepository.save(notification);
+    }
 }

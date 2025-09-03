@@ -17,6 +17,9 @@ import ManageBuses from "./pages/Admin/ManageBuses";
 import ManageRoutes from "./pages/Admin/ManageRoutes";
 import ManageTrips from "./pages/Admin/ManageTrips";
 import Reports from "./pages/Admin/Reports";
+import ManageSeats from "./pages/Admin/ManageSeats";
+import ManageBookings from "./pages/Admin/ManageBookings";
+import SendNotification from "./pages/Admin/SendNotification";
 
 function App() {
   return (
@@ -59,7 +62,10 @@ function App() {
             <Route path="buses" element={<ManageBuses />} />
             <Route path="routes" element={<ManageRoutes />} />
             <Route path="trips" element={<ManageTrips />} />
+            <Route path="seats" element={<ManageSeats />} />
+            <Route path="bookings" element={<ManageBookings />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="notifications" element={<SendNotification />} />
           </Route>
         </Routes>
       </Router>
