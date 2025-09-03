@@ -158,4 +158,24 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getBookingsByUser(User user) {
         return bookingRepository.findByUser(user);
     }
+
+    @Override
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+
+    @Override
+    public Booking updateBookingStatus(Long bookingId, String status) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found: " + bookingId));
+
+        try {
+            BookingStatus newStatus = BookingStatus.valueOf(status.toUpperCase());
+            booking.setStatus(newStatus);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid booking status: " + status);
+        }
+
+        return bookingRepository.save(booking);
+    }
 }
