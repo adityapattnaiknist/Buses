@@ -19,11 +19,14 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 @Service
 public class TicketPdfService {
 
+    private static final Logger LOGGER = Logger.getLogger(TicketPdfService.class.getName());
     private static final DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     /**
@@ -113,7 +116,9 @@ public class TicketPdfService {
                         if (dtime instanceof LocalDateTime) dep = DT_FMT.format((LocalDateTime) dtime);
                         else if (dtime instanceof String) dep = (String) dtime;
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "Failed to parse departure time", e);
+                }
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 12);
                 cs.newLineAtOffset(margin, y);
