@@ -16,6 +16,9 @@ import com.busreservation.service.EmailService;
 import com.busreservation.service.TicketPdfService;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,6 +26,8 @@ import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BookingServiceImpl.class);
 
     private final BookingRepository bookingRepository;
     private final TripRepository tripRepository;
@@ -92,7 +97,7 @@ public class BookingServiceImpl implements BookingService {
         } catch (IOException e) {
             // In a real app, you might want a more sophisticated error handling
             // like a transactional rollback.
-            e.printStackTrace();
+            logger.error("Failed to generate ticket PDF", e);
             throw new RuntimeException("Failed to generate ticket PDF.", e);
         }
 
@@ -135,7 +140,7 @@ public class BookingServiceImpl implements BookingService {
             filePath = ticketPdfService.generateCancellationReceiptPdf(booking);
         } catch (IOException e) {
             // Log the error, but don't prevent the cancellation from completing.
-            e.printStackTrace();
+            logger.error("Error generating cancellation receipt PDF", e);
         }
 
         Booking savedBooking = bookingRepository.save(booking);
