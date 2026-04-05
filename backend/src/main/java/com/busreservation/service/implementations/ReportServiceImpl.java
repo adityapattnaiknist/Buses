@@ -44,11 +44,11 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Map<String, Object>> generateTicketReport() {
         List<Map<String, Object>> report = new ArrayList<>();
-        for (Ticket ticket : ticketRepository.findAll()) {
+        for (TicketRepository.TicketReportProjection projection : ticketRepository.findAllTicketReportData()) {
             Map<String, Object> data = new HashMap<>();
-            data.put("ticketId", ticket.getId());
-            data.put("ticketNumber", ticket.getTicketNumber());
-            data.put("bookingId", ticket.getBooking().getId());
+            data.put("ticketId", projection.getTicketId());
+            data.put("ticketNumber", projection.getTicketNumber());
+            data.put("bookingId", projection.getBookingId());
             report.add(data);
         }
         return report;
