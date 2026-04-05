@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -81,13 +82,14 @@ public class ReportServiceImplTest {
 
     @Test
     void testGenerateSalesReport() {
-        when(bookingRepository.findAll()).thenReturn(Arrays.asList(booking1, booking2));
+        when(bookingRepository.sumAmountByStatus(BookingStatus.CONFIRMED)).thenReturn(300.0);
 
         List<Map<String, Object>> report = reportService.generateSalesReport();
 
         assertEquals(1, report.size());
         assertEquals(300.0, report.get(0).get("totalSales"));
     }
+
 
     @Test
     void testGenerateOccupancyReport() {
