@@ -53,6 +53,8 @@ const SeatSelection = () => {
     if (error) return <div className="alert alert-danger">{error}</div>;
     if (!trip) return <p>Trip not found.</p>;
 
+    const selectedSeatIds = new Set(selectedSeats.map(s => s.id));
+
     return (
         <div className="container mt-4">
             <h2>Select Your Seats</h2>
@@ -66,7 +68,7 @@ const SeatSelection = () => {
                             <button
                                 className={`btn w-100 ${
                                     seat.isBooked ? 'btn-danger' :
-                                    selectedSeats.find(s => s.id === seat.id) ? 'btn-success' : 'btn-outline-primary'
+                                    selectedSeatIds.has(seat.id) ? 'btn-success' : 'btn-outline-primary'
                                 }`}
                                 onClick={() => handleSeatClick(seat)}
                                 disabled={seat.isBooked}
