@@ -13,6 +13,9 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,6 +25,8 @@ import java.nio.file.Paths;
 
 @Service
 public class TicketPdfServiceImpl implements TicketPdfService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TicketPdfServiceImpl.class);
 
     private static final String TICKET_DIR = "tickets/";
     private static final String CANCELLATION_DIR = "cancellations/";
@@ -88,7 +93,7 @@ public class TicketPdfServiceImpl implements TicketPdfService {
 
             } catch (Exception e) {
                 // Handle QR code generation error
-                e.printStackTrace();
+                logger.error("Error generating QR code", e);
             }
 
             contentStream.close();
