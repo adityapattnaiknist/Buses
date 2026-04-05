@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Map<String, Object>> generateBookingReport() {
         List<Map<String, Object>> report = new ArrayList<>();
-        for (Booking booking : bookingRepository.findAll()) {
+        for (com.busreservation.repository.BookingReportProjection booking : bookingRepository.findAllBookingReportData()) {
             Map<String, Object> data = new HashMap<>();
             data.put("bookingId", booking.getId());
             data.put("status", booking.getStatus());
