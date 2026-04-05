@@ -57,12 +57,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Map<String, Object>> generateSalesReport() {
         List<Map<String, Object>> report = new ArrayList<>();
-        double totalSales = 0;
-        for (Booking booking : bookingRepository.findAll()) {
-            if (booking.getStatus() == BookingStatus.CONFIRMED) {
-                totalSales += booking.getAmount();
-            }
-        }
+        Double totalSales = bookingRepository.sumAmountByStatus(BookingStatus.CONFIRMED);
+
         Map<String, Object> data = new HashMap<>();
         data.put("totalSales", totalSales);
         report.add(data);
