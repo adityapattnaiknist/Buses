@@ -7,11 +7,13 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 
+@Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -37,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             // In a real app, handle this more gracefully (e.g., queue the email for retry)
-            e.printStackTrace();
+            log.error("Failed to send booking confirmation email", e);
         }
     }
 
@@ -56,7 +58,7 @@ public class EmailServiceImpl implements EmailService {
 
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error("Failed to send cancellation confirmation email", e);
         }
     }
 }
